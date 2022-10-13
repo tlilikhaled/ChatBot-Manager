@@ -1,0 +1,509 @@
+version: "3.1"
+session_config:
+  session_expiration_time: 0
+  carry_over_slots_to_new_session: true
+intents:
+- check_human
+- create_project:
+    use_entities: []
+- client_bna
+- client_biat
+- client_uib
+- client_qnb
+- inform
+- check_method
+- copy_project
+- greet
+- goodbye
+- affirm
+- deny
+- thankyou
+- out_of_scope
+- help
+- nlu_fallback
+- session_start
+- restart
+- trigger_handoff
+- handoff
+- human_handoff
+
+
+entities:
+- amount-of-money
+- time
+- client
+- project_name
+- people_ressource
+- days_ressource
+- developer
+- quality
+- devops
+- support
+- delivery_date
+- project_id
+- number
+- handoff_to
+
+ 
+slots:
+  AA_CONTINUE_FORM:
+    type: any
+    influence_conversation: false
+    mappings:
+    - intent: affirm
+      type: from_intent
+      value: yes
+      conditions:
+      - active_loop: create_project_form
+        requested_slot: AA_CONTINUE_FORM
+    - intent: deny
+      type: from_intent
+      value: no
+      conditions:
+      - active_loop: create_project_form
+        requested_slot: AA_CONTINUE_FORM
+    - intent:
+      - inform
+      - create_project_form
+      type: from_text
+      conditions:
+      - active_loop: create_project_form
+        requested_slot: AA_CONTINUE_FORM
+  client:
+    type: any
+    influence_conversation: false
+    mappings:
+    - intent: client_bna
+      type: from_intent
+      value: BNA
+      conditions:
+      - active_loop: create_project_form
+        requested_slot: client
+    - intent: client_biat
+      type: from_intent
+      value: BIAT
+      conditions:
+      - active_loop: create_project_form
+        requested_slot: client
+    - intent: client_uib
+      type: from_intent
+      value: UIB
+      conditions:
+      - active_loop: create_project_form
+        requested_slot: client
+    - intent: client_qnb
+      type: from_intent
+      value: QNB
+      conditions:
+      - active_loop: create_project_form
+        requested_slot: client
+    - intent:
+      - inform
+      - create_project_form
+      type: from_text
+      conditions:
+      - active_loop: know_grade_form
+        requested_slot: client
+  project_name:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: project_name
+      conditions:
+      - active_loop: create_project_form
+        requested_slot: project_name
+    - intent:
+      - inform
+      - create_project_form
+      type: from_text
+      conditions:
+      - active_loop: create_project_form
+        requested_slot: project_name
+    - type: from_entity
+      entity: project_name
+  amount-of-money:
+    type: any
+    influence_conversation: false
+    mappings:
+    - type: from_entity 
+      entity: amount-of-money
+      conditions:
+      - active_loop: create_project_form
+        requested_slot: amount-of-money
+    - intent:
+      - inform
+      - create_project_form
+      type: from_text
+      conditions:
+      - active_loop: create_project_form
+        requested_slot: amount-of-money
+    - type: from_entity
+      entity: amount-of-money
+  people_ressource:
+    type: any
+    influence_conversation: false
+    mappings:
+    - entity: people_ressource
+      not_intent:
+      - check_method
+      type: from_entity
+      conditions:
+      - active_loop: create_project_form
+        requested_slot: people_ressource
+    - entity: number
+      not_intent:
+      - check_method
+      type: from_entity
+      conditions:
+      - active_loop: create_project_form
+        requested_slot: people_ressource
+    - intent:
+      - inform
+      - create_project_form
+      type: from_text
+      conditions:
+      - active_loop: create_project_form
+        requested_slot: people_ressource
+    - type: from_entity
+      entity: people_ressource
+  days_ressource:
+    type: any
+    influence_conversation: false
+    mappings:
+    - entity: days_ressource
+      not_intent:
+      - check_method
+      type: from_entity
+      conditions:
+      - active_loop: create_project_form
+        requested_slot: days_ressource
+    - intent:
+      - inform
+      - create_project_form
+      type: from_text
+      conditions:
+      - active_loop: create_project_form
+        requested_slot: days_ressource
+    - type: from_entity
+      entity: days_ressource
+  developer:
+    type: any
+    influence_conversation: false
+    mappings:
+    - entity: developer
+      not_intent:
+      - check_method
+      type: from_entity
+      conditions:
+      - active_loop: create_project_form
+        requested_slot: developer
+    - entity: number
+      not_intent:
+      - check_method
+      type: from_entity
+      conditions:
+      - active_loop: create_project_form
+        requested_slot: developer
+    - intent:
+      - inform
+      - create_project_form
+      type: from_text
+      conditions:
+      - active_loop: create_project_form
+        requested_slot: developer
+    - type: from_entity
+      entity: developer
+  quality:
+    type: any
+    influence_conversation: false
+    mappings:
+    - entity: quality
+      not_intent:
+      - check_method
+      type: from_entity
+      conditions:
+      - active_loop: create_project_form
+        requested_slot: quality
+    - intent:
+      - inform
+      - create_project_form
+      type: from_text
+      conditions:
+      - active_loop: create_project_form
+        requested_slot: quality
+    - type: from_entity
+      entity: quality
+  devops:
+    type: any
+    influence_conversation: false
+    mappings:
+    - entity: devops
+      not_intent:
+      - check_method
+      type: from_entity
+      conditions:
+      - active_loop: create_project_form
+        requested_slot: devops
+    - intent:
+      - inform
+      - create_project_form
+      type: from_text
+      conditions:
+      - active_loop: create_project_form
+        requested_slot: devops
+    - type: from_entity
+      entity: devops
+  support:
+    type: any
+    influence_conversation: false
+    mappings:
+    - entity: support
+      not_intent:
+      - check_method
+      type: from_entity
+      conditions:
+      - active_loop: create_project_form
+        requested_slot: support
+    - entity: number
+      type: from_entity
+      conditions:
+      - active_loop: create_project_form
+        requested_slot: support
+    - intent:
+      - inform
+      - create_project_form
+      type: from_text
+      conditions:
+      - active_loop: create_project_form
+        requested_slot: support
+    - type: from_entity
+      entity: support
+  delivery_date:
+    type: any
+    influence_conversation: false
+    mappings:
+    - entity: delivery_date
+      type: from_entity
+      conditions:
+      - active_loop: create_project_form
+        requested_slot: delivery_date
+    - entity: time
+      type: from_entity
+      conditions:
+      - active_loop: create_project_form
+        requested_slot: delivery_date
+    - intent:
+      - inform
+      - create_project_form
+      type: from_text
+      conditions:
+      - active_loop: create_project_form
+        requested_slot: delivery_date
+    - type: from_entity
+      entity: delivery_date
+  project_id:
+    type: any
+    influence_conversation: False
+    mappings:
+    - type: from_entity
+      entity: number
+  requested_slot:
+    type: any
+    influence_conversation: false
+    mappings:
+    - type: custom
+  number:
+    type: any
+    influence_conversation: False
+    mappings:
+    - type: from_entity
+      entity: number
+  currency:
+    type: any
+    influence_conversation: false
+    initial_value: $
+    mappings:
+    - type: custom
+  handoff_to:
+    type: any
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: handoff_to
+  time:
+    type: any
+    influence_conversation: false
+    mappings:
+    - entity: time
+      type: from_entity
+      conditions:
+      - active_loop: create_project_form
+        requested_slot: time
+    - intent:
+      - inform
+      type: from_text
+      conditions:
+      - active_loop: create_project_form
+        requested_slot: time
+  repeated_validation_failures:
+    type: any
+    influence_conversation: false
+    mappings:
+    - type: custom
+  previous_form_name:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: custom
+  zz_confirm_form:
+    type: any
+    influence_conversation: false
+    mappings:
+    - intent: affirm
+      type: from_intent
+      value: yes
+      conditions:
+      - active_loop: create_project_form
+        requested_slot: zz_confirm_form
+    - intent: deny
+      type: from_intent
+      value: no
+      conditions:
+      - active_loop: create_project_form
+        requested_slot: zz_confirm_form
+    - intent:
+      - inform
+      - create_project_form
+      type: from_text
+      conditions:
+      - active_loop: create_project_form
+        requested_slot: zz_confirm_form
+responses:
+  utter_out_of_scope:
+  - text: Sorry, I'm not sure how to respond to that. Type "help" for assistance.
+  utter_project_method:
+  - text: "There are 2 methodes to create new project.\n- 1- Enter required informations (name, budget, Day/people needed, delivery_date).\n- 2- With copy template of other project(required Id Project and to receive a template) "
+  utter_ask_create_project_form_client:
+  - buttons:
+    - payload: /client_bna
+      title: BNA
+    - payload: /client_biat
+      title: BIAT
+    - payload: /client_uib
+      title: UIB
+    - payload: /client_qnb
+      title: QNB
+    text: "For which client this new project ?" 
+  utter_ask_create_project_form_project_name:
+  - text: What's the name of your project?
+  utter_ask_create_project_form_amount-of-money:
+  - text: How much money for project budget?
+  utter_ask_create_project_form_people_ressource:
+  - text: "How many people need to be recuited for your project?"
+  utter_ask_create_project_form_days_ressource:
+  - text: "How many days for this {people_ressource} people you need?"
+  utter_ask_create_project_form_developer:
+  - text: "Now let's take profils for this {people_ressource} people \n- How many developers you need?"
+  utter_ask_create_project_form_quality:
+  - text: "How many QA Engineer you need?"
+  utter_ask_create_project_form_devops:
+  - text: "How many Devops Engineer you need?"
+  utter_ask_create_project_form_support:
+  - text: "How many IT support  you need?"
+  utter_ask_create_project_form_delivery_date:
+  - text: "what is the delivery date of your project?\n- Format like : YYYY-MM-DD"
+  utter_data_saved:
+  - text: Successfully saved {project_name} informations .
+  utter_project_cancelled:
+  - text: Project cancelled.
+  utter_unknown_name:
+  - text: Sorry, {project_name} is used in other project.
+  utter_unknown_client:
+  - text: Sorry, We don't have a customer with this name = {client}.
+  utter_project_id:
+  - text: Ok, Can you give me the Id of The project you want ? 
+  utter_unknown_project_id:
+  - text: Sorry, This projectId {project_id} dosen't exist. Try to enter other Id
+  utter_ok:
+  - text: 👍  
+  utter_default:
+  - text: I didn't quite understand that. Could you rephrase?
+  utter_ask_handoff:
+  - text: It looks like you want to be transferred to a HR agent or comptroller agent .
+  utter_handoff:
+  - text: Alright, I'll try to transfer you.
+  utter_wouldve_handed_off:
+  - text: If you were talking to me via chatroom, I would have handed you off to {handoffhost}.
+  utter_no_handoff:
+  - text: Since you haven't configured a host to hand off to, I can't send you anywhere!
+  utter_ask_whatelse:
+  - text: What else can I help you with? Type "help" for assistance 😀
+  utter_help:
+  - buttons:
+    - payload: /check_method
+      title: You need to know how to create a project ?
+    - payload: /copy_project
+      title: You want a copy of project template ?
+    - payload: /create_project
+      title: You want create new project ?
+    - payload: /human_handoff
+      title: Talking with HR Assistant or Comptroller Assistant ?
+    text: "I can help you with your business projects. What things would You like to do :"
+  utter_greet:
+  - text: Hi! I'm your Business Assistant!
+  utter_noworries:
+  - text: You're welcome 😀
+  utter_goodbye:
+  - text: Bye
+  utter_insufficient_budget:
+  - text: Sorry, you should entred a budget more than 1000$!
+  utter_no_budget_amount:
+  - text: Sorry, I don't understand that budget amount.
+  utter_no_delivery_date:
+  - text: Sorry, that is not a valid delivery date.
+  utter_ask_rephrase:
+  - text: I didn't quite understand that. Can you rephrase?
+  utter_ask_continue:
+  - text: Would you like to continue?
+  utter_bot:
+  - text: I'm a virtual assistant made with Rasa.
+  utter_ask_create_project_form_AA_CONTINUE_FORM:
+  - buttons:
+    - payload: /affirm
+      title: Yes, continue with tihs operation
+    - payload: /deny
+      title: No, cancel the create of new project
+    text: Would you like to continue scheduling the creation of new project?
+  utter_ask_create_project_form_zz_confirm_form:
+  - buttons:
+    - payload: /affirm
+      title: Yes, save these informations
+    - payload: /deny
+      title: No, dont' save this informations
+    text: "These are the informations about your {project_name} project :\n -name project : {project_name}\n -budget project : {currency}{amount-of-money} \n - days/people needed : {days_ressource}/{people_ressource}\n- numbers of profils developers: {developer}\n- numbers of profils Quality: {quality}\n- numbers of profils DevOps: {devops}\n- numbers of profils IT support: {support}\n - delivery date : {delivery_date}\n- Would you like to save these informations?"
+actions :
+  - action_session_start
+  - action_restart
+  - action_handoff
+  - action_handoff_options
+  - validate_create_project_form
+  - action_show_method
+  - action_create_project
+  - action_copy_project
+forms:
+  create_project_form:
+    ignored_intents: []
+    required_slots:
+    - AA_CONTINUE_FORM
+    - client
+    - project_name
+    - amount-of-money
+    - people_ressource
+    - days_ressource
+    - developer
+    - quality
+    - devops
+    - support
+    - delivery_date
+    - zz_confirm_form
